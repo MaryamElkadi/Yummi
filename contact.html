@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+
+  <link rel="stylesheet" href="./assests/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assests/css/all.min.css" />
+  <link rel="stylesheet" href="./assests/css/style.css" />
+  <style>
+    .form-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alert {
+      padding: 5px 10px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    #sideMenu {
+      width: 250px;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+      z-index: 999;
+      background-color: #000 !important;
+      color: white;
+    }
+
+    #sideMenu.open {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <div class="home d-flex">
+        <!-- Navbar -->
+        <div class="navbar d-flex flex-column justify-content-between align-items-center p-3">
+          <img src="./assests/img/logo.png" alt="logo" />
+          <i class="fa-solid fa-bars" id="openMenu" style="cursor: pointer;"></i>
+          <div class="share d-flex flex-column gap-2">
+            <i class="fa-solid fa-globe"></i>
+            <i class="fa-solid fa-share-nodes"></i>
+          </div>
+        </div>
+
+        <!-- Side Menu -->
+        <div class="side-menu position-fixed top-0 start-0 vh-100 bg-black text-white px-4 py-3 d-flex flex-column justify-content-between" id="sideMenu">
+          <div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold">Menu</h4>
+              <i class="fa-solid fa-xmark fs-2" id="closeMenu" style="cursor: pointer;"></i>
+            </div>
+                   <ul class="list-unstyled fs-5 d-flex flex-column gap-3">
+  <li><a href="search.html" class="text-white text-decoration-none">Search</a></li>
+  <li><a href="categories.html" class="text-white text-decoration-none">Categories</a></li>
+  <li><a href="area.html" class="text-white text-decoration-none">Area</a></li>
+  <li><a href="Ingredients.html" class="text-white text-decoration-none">Ingredients</a></li>
+  <li><a href="contact.html" class="text-white text-decoration-none">Contact Us</a></li>
+</ul>
+          </div>
+          <div>
+            <div class="d-flex gap-3 mb-2">
+              <i class="fa-brands fa-facebook"></i>
+              <i class="fa-brands fa-twitter"></i>
+              <i class="fa-solid fa-globe"></i>
+            </div>
+            <p class="small m-0">Copyright © 2019 All Rights Reserved.</p>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main w-100 form-container text-white">
+          <div class="container">
+            <h2 class="text-center mb-4">Contact Us</h2>
+            <form id="contactForm" novalidate>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <input id="name" type="text" class="form-control" placeholder="Enter your name" />
+                  <div id="nameError" class="alert alert-danger d-none">Enter a valid Name (min 3 letters)</div>
+                </div>
+                <div class="col-md-6">
+                  <input id="email" type="email" class="form-control" placeholder="Enter your email" />
+                  <div id="emailError" class="alert alert-danger d-none">Email not valid *exemple@yyy.zzz</div>
+                </div>
+                <div class="col-md-6">
+                  <input id="phone" type="tel" class="form-control" placeholder="Enter your phone" />
+                  <div id="phoneError" class="alert alert-danger d-none">Enter valid Phone Number</div>
+                </div>
+                <div class="col-md-6">
+                  <input id="age" type="number" class="form-control" placeholder="Enter your age" />
+                  <div id="ageError" class="alert alert-danger d-none">Enter valid age (min 18)</div>
+                </div>
+                <div class="col-md-6">
+                  <input id="password" type="password" class="form-control" placeholder="Enter your password" />
+                  <div id="passwordError" class="alert alert-danger d-none">Enter valid password *Minimum eight characters, at least one letter and one number*</div>
+                </div>
+                <div class="col-md-6">
+                  <input id="repassword" type="password" class="form-control" placeholder="Re-enter your password" />
+                  <div id="repasswordError" class="alert alert-danger d-none">Enter valid repassword</div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" id="submitBtn" class="btn btn-outline-danger px-4" disabled>Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./assests/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Side menu toggle
+    const openMenuBtn = document.getElementById("openMenu");
+    const closeMenuBtn = document.getElementById("closeMenu");
+    const sideMenu = document.getElementById("sideMenu");
+
+    openMenuBtn.addEventListener("click", () => {
+      sideMenu.classList.add("open");
+    });
+
+    closeMenuBtn.addEventListener("click", () => {
+      sideMenu.classList.remove("open");
+    });
+
+    // Contact form validation
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const fields = {
+      name: {
+        input: document.getElementById("name"),
+        error: document.getElementById("nameError"),
+        regex: /^[A-Za-z ]{3,}$/
+      },
+      email: {
+        input: document.getElementById("email"),
+        error: document.getElementById("emailError"),
+        regex: /^[\\w.-]+@[a-zA-Z_-]+?\\.[a-zA-Z]{2,3}$/
+      },
+      phone: {
+        input: document.getElementById("phone"),
+        error: document.getElementById("phoneError"),
+        regex: /^01[0125][0-9]{8}$/
+      },
+      age: {
+        input: document.getElementById("age"),
+        error: document.getElementById("ageError"),
+        regex: /^(1[89]|[2-9][0-9])$/
+      },
+      password: {
+        input: document.getElementById("password"),
+        error: document.getElementById("passwordError"),
+        regex: /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/
+      },
+      repassword: {
+        input: document.getElementById("repassword"),
+        error: document.getElementById("repasswordError"),
+        custom: () => document.getElementById("password").value === document.getElementById("repassword").value
+      }
+    };
+
+    function validateField(field) {
+      const value = field.input.value.trim();
+      let isValid = field.regex ? field.regex.test(value) : field.custom();
+      field.error.classList.toggle("d-none", isValid);
+      return isValid;
+    }
+
+    function validateForm() {
+      let allValid = true;
+      for (const key in fields) {
+        const valid = validateField(fields[key]);
+        if (!valid) allValid = false;
+      }
+      submitBtn.disabled = !allValid;
+    }
+
+    for (const key in fields) {
+      fields[key].input.addEventListener("input", () => {
+        validateField(fields[key]);
+        validateForm();
+      });
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Form submitted successfully!");
+      form.reset();
+      submitBtn.disabled = true;
+      for (const key in fields) {
+        fields[key].error.classList.add("d-none");
+      }
+    });
+  </script>
+</body>
+</html>

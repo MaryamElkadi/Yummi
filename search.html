@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Meals</title>
+  <link rel="stylesheet" href="./assests/css/all.min.css" />
+  <link rel="stylesheet" href="./assests/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assests/css/style.css" />
+</head>
+<body>
+
+<main>
+  <section>
+    <div class="home d-flex flex-row justify-content-start align-items-start">
+      
+      <!-- Navbar -->
+      <div class="navbar d-flex justify-content-between flex-column align-items-center">
+        <img src="./assests/img/logo.png" alt="Logo" />
+        <i class="fa-solid fa-bars"></i>
+        <div class="share d-flex flex-column gap-2">
+          <i class="fa-solid fa-globe"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+      </div>
+
+      <!-- Side Menu -->
+      <div class="side-menu position-fixed top-0 start-0 vh-100 bg-black text-white px-4 py-3 d-flex flex-column justify-content-between" id="sideMenu">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold">Menu</h4>
+            <i class="fa-solid fa-xmark fs-2" id="closeMenu" style="cursor: pointer;"></i>
+          </div>
+                 <ul class="list-unstyled fs-5 d-flex flex-column gap-3">
+  <li><a href="search.html" class="text-white text-decoration-none">Search</a></li>
+  <li><a href="categories.html" class="text-white text-decoration-none">Categories</a></li>
+  <li><a href="area.html" class="text-white text-decoration-none">Area</a></li>
+  <li><a href="Ingredients.html" class="text-white text-decoration-none">Ingredients</a></li>
+  <li><a href="contact.html" class="text-white text-decoration-none">Contact Us</a></li>
+</ul>
+        </div>
+        <div>
+          <div class="d-flex gap-3 mb-2">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <p class="small m-0">Copyright © 2019 All Rights Reserved.</p>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main d-flex flex-wrap p-3 gap-3">
+        <div class="container">
+          <h2 class="text-white mb-4">Search Meals</h2>
+
+          <!-- Search Inputs with Buttons -->
+          <div class="row mb-4">
+            <!-- Search by name -->
+            <div class="col-md-6 mb-2">
+              <div class="input-group">
+                <input type="text" id="searchByName" class="form-control" placeholder="Search by meal name" />
+                <button class="btn btn-primary" id="searchByNameBtn">Search</button>
+              </div>
+            </div>
+            <!-- Search by first letter -->
+            <div class="col-md-6 mb-2">
+              <div class="input-group">
+                <input type="text" id="searchByLetter" class="form-control" maxlength="1" placeholder="Search by first letter" />
+                <button class="btn btn-primary" id="searchByLetterBtn">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Results -->
+          <div id="searchResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- Meals will be injected here -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="./assests/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+
+<script>
+  // Toggle menu
+  document.querySelector('.fa-bars').addEventListener('click', () => {
+    document.getElementById('sideMenu').classList.add('open');
+  });
+
+  document.getElementById('closeMenu').addEventListener('click', () => {
+    document.getElementById('sideMenu').classList.remove('open');
+  });
+
+  // Fetch meals by name
+  async function searchMealsByName(name) {
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`);
+    const data = await res.json();
+    displayMeals(data.meals || []);
+  }
+
+  // Fetch meals by first letter
+  async function searchMealsByLetter(letter) {
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`);
+    const data = await res.json();
+    displayMeals(data.meals || []);
+  }
+
+  // Display meals
+  function displayMeals(meals) {
+    const container = document.getElementById('searchResults');
+    container.innerHTML = '';
+
+    if (!meals.length) {
+      container.innerHTML = '<p class="text-white">No meals found.</p>';
+      return;
+    }
+
+    meals.forEach(meal => {
+      container.innerHTML += `
+        <div class="col">
+          <div class="meal-card position-relative overflow-hidden">
+            <a href="meal.html?id=${meal.idMeal}">
+              <img src="${meal.strMealThumb}" class="w-100 h-100 object-fit-cover" alt="${meal.strMeal}">
+              <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                <h5 class="text-dark fw-bold text-center">${meal.strMeal}</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // Input and button event listeners
+  document.getElementById('searchByNameBtn').addEventListener('click', () => {
+    const value = document.getElementById('searchByName').value.trim();
+    if (value) searchMealsByName(value);
+  });
+
+  document.getElementById('searchByLetterBtn').addEventListener('click', () => {
+    const value = document.getElementById('searchByLetter').value.trim();
+    if (value && value.length === 1 && /^[a-zA-Z]$/.test(value)) {
+      searchMealsByLetter(value);
+    }
+  });
+</script>
+
+</body>
+</html>

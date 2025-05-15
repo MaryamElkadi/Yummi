@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meals by Category</title>
+
+  <!-- Bootstrap & Font Awesome -->
+  <link rel="stylesheet" href="./assests/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./assests/css/style.css">
+
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar {
+      width: 80px;
+      height: 100vh;
+      background-color: #000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-right: 1px solid #333;
+    }
+
+    .sidebar img {
+      width: 50px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar i {
+      color: #fff;
+      font-size: 20px;
+      margin: 15px 0;
+      cursor: pointer;
+    }
+
+    .main-content {
+      margin-left: 80px;
+      padding: 20px;
+    }
+
+    .meal-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .meal-card:hover {
+      transform: scale(1.03);
+    }
+
+    .meal-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .meal-card:hover .overlay {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        flex-direction: row;
+        height: auto;
+        width: 100%;
+        justify-content: space-around;
+        padding: 10px 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+        margin-top: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <img src="./assests/img/logo.png" alt="Logo">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <i class="fa-solid fa-globe"></i>
+      <i class="fa-solid fa-share-nodes"></i>
+    </div>
+  </div>
+ <!-- Sidebar Toggle Button -->
+<div class="sidebar d-flex flex-column justify-content-between align-items-center py-4">
+  <div>
+    <img src="./assests/img/logo.png" alt="Logo" width="50" />
+    <i class="fa-solid fa-bars" id="openMenu" style="cursor: pointer;"></i>
+  </div>
+  <div class="d-flex flex-column align-items-center">
+    <i class="fa-solid fa-globe"></i>
+    <i class="fa-solid fa-share-nodes"></i>
+  </div>
+</div>
+
+<!-- Full Side Menu -->
+<div class="side-menu sidebar position-fixed top-0 start-0 vh-100 bg-black text-white px-4 py-3 d-flex flex-column justify-content-between d-none" id="sideMenu">
+  <div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold">Menu</h4>
+      <i class="fa-solid fa-xmark fs-2" id="closeMenu" style="cursor: pointer;"></i>
+    </div>
+             <ul class="list-unstyled fs-5 d-flex flex-column gap-3">
+  <li><a href="search.html" class="text-white text-decoration-none">Search</a></li>
+  <li><a href="categories.html" class="text-white text-decoration-none">Categories</a></li>
+  <li><a href="area.html" class="text-white text-decoration-none">Area</a></li>
+  <li><a href="Ingredients.html" class="text-white text-decoration-none">Ingredients</a></li>
+  <li><a href="contact.html" class="text-white text-decoration-none">Contact Us</a></li>
+</ul>
+  </div>
+  <div>
+    <div class="d-flex gap-3 mb-2">
+      <i class="fa-brands fa-facebook"></i>
+      <i class="fa-brands fa-twitter"></i>
+      <i class="fa-solid fa-globe"></i>
+    </div>
+    <p class="small m-0">Copyright © 2019 All Rights Reserved.</p>
+  </div>
+</div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2 class="text-white mb-4">Meals in Category</h2>
+    <div class="row" id="mealsContainer">
+      <!-- Meal cards will be injected here -->
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="./assests/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const container = document.getElementById('mealsContainer');
+
+    async function fetchMealsByCategory(categoryName) {
+      try {
+        const res = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+        const data = await res.json();
+        container.innerHTML = "";
+
+    data.meals.forEach(meal => {
+ container.innerHTML += `
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+    <div class="meal-card" data-id="${meal.idMeal}">
+      <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+      <div class="overlay">
+        <h5 class="text-white text-center">${meal.strMeal}</h5>
+      </div>
+    </div>
+  </div>
+`;
+
+});
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.meal-card');
+  if (!card) return;
+  const mealId = card.dataset.id;
+  if (mealId) {
+    window.location.href = `meal.html?id=${mealId}`;
+  }
+});
+
+
+      } catch (error) {
+        container.innerHTML = `<p class="text-white">Error loading meals: ${error}</p>`;
+      }
+    }
+
+    if (category) {
+      fetchMealsByCategory(category);
+    } else {
+      container.innerHTML = "<p class='text-white'>No category selected.</p>";
+    }
+
+  // Sidebar toggle logic
+  document.getElementById("openMenu").addEventListener("click", () => {
+    document.getElementById("sideMenu").classList.remove("d-none");
+  });
+
+  document.getElementById("closeMenu").addEventListener("click", () => {
+    document.getElementById("sideMenu").classList.add("d-none");
+  });
+  </script>
+</body>
+</html>

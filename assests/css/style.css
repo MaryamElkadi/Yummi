@@ -1,0 +1,93 @@
+.navbar {
+  background-color: white;
+  height: 100vh;
+  width: 7%;
+}
+
+.navbar img {
+  width: 60%;
+  margin-top: 30px;
+}
+
+.navbar .fa-bars {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.main {
+  height: 100vh;
+  background-color: black;
+  width: 93%;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+.meal-card {
+  position: relative;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.meal-card img {
+  transition: transform 0.3s ease;
+}
+
+.meal-card:hover img {
+  transform: scale(1.05);
+}
+
+
+.meal-card .overlay {
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.meal-card:hover .overlay {
+  transform: translateY(0);
+  opacity: 1;
+}
+#sideMenu {
+  width: 250px;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: 999;
+    background-color: #000 !important; /* Force black */
+  color: white;
+}
+
+#sideMenu.open {
+  transform: translateX(0);
+}
+.meal-details {
+  min-height: 100vh;
+}
+
+.meal-img img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.meal-info ul {
+  padding-left: 20px;
+}
+
+@media (min-width: 768px) {
+  .meal-img,
+  .meal-info {
+    width: 48%;
+  }
+}
+

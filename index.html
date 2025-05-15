@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories Page</title>
+
+    <link rel="stylesheet" href="./assests/css/all.min.css">
+    <link rel="stylesheet" href="./assests/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assests/css/style.css">
+</head>
+
+<body>
+
+    <main>
+        <section>
+            <div class="home d-flex flex-row justify-content-start align-items-start">
+                <div class="navbar d-flex justify-content-between flex-column align-items-center">
+                    <img src="./assests/img/logo.png" alt="">
+                    <i class="fa-solid fa-bars"></i>
+                    <div class="share d-flex flex-column gap-2">
+                        <i class="fa-solid fa-globe"></i>
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </div>
+                </div>
+
+                <!-- Side Menu -->
+                <div class="side-menu position-fixed top-0 start-0 vh-100 bg-black text-white px-4 py-3 d-flex flex-column justify-content-between" id="sideMenu">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="fw-bold">Menu</h4>
+                            <i class="fa-solid fa-xmark fs-2" id="closeMenu" style="cursor: pointer;"></i>
+                        </div>
+                    <ul class="list-unstyled fs-5 d-flex flex-column gap-3">
+  <li><a href="search.html" class="text-white text-decoration-none">Search</a></li>
+  <li><a href="categories.html" class="text-white text-decoration-none">Categories</a></li>
+  <li><a href="area.html" class="text-white text-decoration-none">Area</a></li>
+  <li><a href="Ingredients.html" class="text-white text-decoration-none">Ingredients</a></li>
+  <li><a href="contact.html" class="text-white text-decoration-none">Contact Us</a></li>
+</ul>
+
+                    </div>
+                    <div>
+                        <div class="d-flex gap-3 mb-2">
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-twitter"></i>
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <p class="small m-0">Copyright © 2019 All Rights Reserved.</p>
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="main d-flex flex-wrap p-3 gap-3">
+                    <div class="container">
+                        <h2 class="text-white mb-4">Meal Categories</h2>
+                        <div id="categories-container" class="d-flex flex-wrap gap-3">
+                            <!-- Category items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="./assests/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    <script src="./assests/js/index.js"></script>
+
+</body>
+
+</html>
